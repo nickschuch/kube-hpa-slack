@@ -3,10 +3,10 @@
 GO=go
 GB=gb
 
-darwin-amd64:
+darwin:
 	env GOOS=darwin GOARCH=amd64 $(GB) build
 
-linux-amd64:
+linux:
 	env GOOS=linux GOARCH=amd64 $(GB) build
 
 all: test clean darwin-amd64 linux-amd64

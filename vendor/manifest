@@ -202,6 +202,12 @@
 			"branch": "master"
 		},
 		{
+			"importpath": "github.com/nickschuch/go-slack",
+			"repository": "https://github.com/nickschuch/go-slack",
+			"revision": "9759a5262b11dd9b7ff8992f1ac5029d076957cd",
+			"branch": "master"
+		},
+		{
 			"importpath": "github.com/pborman/uuid",
 			"repository": "https://github.com/pborman/uuid",
 			"revision": "b984ec7fa9ff9e428bd0cf0abf429384dfbe3e37",
