@@ -55,16 +55,28 @@ func main() {
 				// Ensure we have a previously set value.
 				if _, ok := prevHPAs[id]; !ok {
 					prevHPAs[id] = h
+					continue
 				}
 
 				// Check if the values have been changed.
 				if h.Spec.MinReplicas != prevHPAs[id].Spec.MinReplicas {
-					msg = msg + fmt.Sprintf("Minimum changed from *%d* to *%d*", prevHPAs[id].Spec.MinReplicas, h.Spec.MinReplicas)
+					msg = msg + fmt.Sprintf("Minimum changed from *%d* to *%d*\n", prevHPAs[id].Spec.MinReplicas, h.Spec.MinReplicas)
 				}
 
 				if h.Spec.MaxReplicas != prevHPAs[id].Spec.MaxReplicas {
-					msg = msg + fmt.Sprintf("Maximum changed from *%d* to *%d*", prevHPAs[id].Spec.MaxReplicas, h.Spec.MaxReplicas)
+					msg = msg + fmt.Sprintf("Maximum changed from *%d* to *%d*\n", prevHPAs[id].Spec.MaxReplicas, h.Spec.MaxReplicas)
 				}
+
+				if h.Status.CurrentReplicas != prevHPAs[id].Status.CurrentReplicas {
+					msg = msg + fmt.Sprintf("Current changed from *%d* to *%d*\n", prevHPAs[id].Status.CurrentReplicas, h.Status.CurrentReplicas)
+				}
+
+				if h.Status.DesiredReplicas != prevHPAs[id].Status.DesiredReplicas {
+					msg = msg + fmt.Sprintf("Desired changed from *%d* to *%d*\n", prevHPAs[id].Status.DesiredReplicas, h.Status.DesiredReplicas)
+				}
+
+				// Save it for later.
+				prevHPAs[id] = h
 
 				if msg != "" {
 					if err := slack.Send(id, *cliSlackEmoji, msg, *cliSlackChannel, *cliSlackUrl); err != nil {
@@ -73,10 +85,5 @@ func main() {
 				}
 			}
 		}
-
-		// Build a client.
-		// Get a list of all the namespaces.
-		// Get the HPA, compare against the last.
-		// Message Slack if there was a change.
 	}
 }
