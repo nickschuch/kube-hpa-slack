@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"time"
 
 	slack "github.com/nickschuch/go-slack"
 	"gopkg.in/alecthomas/kingpin.v2"
@@ -25,7 +26,11 @@ func main() {
 
 	prevHPAs := make(map[string]autoscaling.HorizontalPodAutoscaler)
 
+	throttle := time.Tick(time.Second / 60)
+
 	for {
+		<-throttle
+
 		k8s, err := client.New(&restclient.Config{
 			Host: *cliKubernetes,
 		})
