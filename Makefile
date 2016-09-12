@@ -9,7 +9,7 @@ darwin:
 linux:
 	env GOOS=linux GOARCH=amd64 $(GB) build
 
-all: test clean darwin-amd64 linux-amd64
+all: test clean darwin linux
 
 clean:
 	rm -fR pkg bin
